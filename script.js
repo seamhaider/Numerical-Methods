@@ -1,4 +1,3 @@
-/* ========= Function Parser ========= */
 function f(x, eq) {
   try {
     // Step 1: clean input
@@ -136,58 +135,104 @@ function solve() {
     let sum = 0;
 
     for (let i = 0; i <= n; i++) {
-      const x = a + i * h;
-      const fx = f(x, eq);
+    const x = a + i * h;
+    const fx = f(x, eq);
 
-      let coeff = "";
-
-      if (method === "simpson") {
-        if (i === 0 || i === n) {
-          coeff = 1;
-          sum += fx;
-        } else if (i % 3 === 0) {
-          coeff = 2;
-          sum += 2 * fx;
-        } else {
-          coeff = 3;
-          sum += 3 * fx;
-        }
-      }
-
-      tableRows += `
-        <tr>
-          <td>${i}</td>
-          <td>${x.toFixed(6)}</td>
-          <td>${fx.toFixed(6)}</td>
-          <td>${coeff}</td>
-        </tr>
-      `;
-    }
-
-    let result = "";
+    let coeff = "";
 
     if (method === "simpson") {
-      result = (3 * h / 8) * sum;
+      if (i === 0 || i === n) {
+        coeff = 1;
+        sum += fx;
+      } else if (i % 3 === 0) {
+        coeff = 2;
+        sum += 2 * fx;
+      } else {
+        coeff = 3;
+        sum += 3 * fx;
+      }
     }
 
-    output.innerHTML = `
-      <div style="padding:10px">
-        <h3>Results</h3>
-        <p><b>Step size (h):</b> ${h.toFixed(6)}</p>
-        <p><b>Final Result:</b> ${result.toFixed(6)}</p>
+    else if (method === "weddle") {
+      const mod = i % 6;
 
-        <h3>Iteration Details</h3>
-        <table border="1" width="100%" style="border-collapse:collapse">
-          <tr>
-            <th>i</th>
-            <th>x</th>
-            <th>f(x)</th>
-            <th>Coefficient</th>
-          </tr>
-          ${tableRows}
-        </table>
-      </div>
+      if (mod === 0) coeff = 1;
+      else if (mod === 1) coeff = 5;
+      else if (mod === 2) coeff = 1;
+      else if (mod === 3) coeff = 6;
+      else if (mod === 4) coeff = 1;
+      else if (mod === 5) coeff = 5;
+
+      sum += coeff * fx;
+    }
+
+    tableRows += `
+      <tr>
+        <td>${i}</td>
+        <td>${x.toFixed(6)}</td>
+        <td>${fx.toFixed(6)}</td>
+        <td>${coeff}</td>
+      </tr>
     `;
+  }
+
+        let result = "";
+    let steps = "";
+
+    if (method === "simpson") {
+      const res = simpson38(eq, a, b, n);
+      result = res.result;
+      steps = res.steps;
+
+    } else if (method === "weddle") {
+      const res = weddle(eq, a, b, n);
+      result = res.result;
+      steps = res.steps;
+    }
+
+        if (method === "simpson") {
+      output.innerHTML = `
+        <div style="padding:10px">
+          <h3>Results (Simpson’s 3/8 Rule)</h3>
+          <p><b>Step size (h):</b> ${h.toFixed(6)}</p>
+          <p><b>Final Result:</b> ${result.toFixed(6)}</p>
+
+          <h3>Iteration Details</h3>
+          <table border="1" width="100%" style="border-collapse:collapse">
+            <tr>
+              <th>i</th>
+              <th>x</th>
+              <th>f(x)</th>
+              <th>Coefficient</th>
+            </tr>
+            ${tableRows}
+          </table>
+        </div>
+      `;
+    }
+    else if (method === "weddle") {
+  output.innerHTML = `
+    <div style="padding:10px">
+      <h3>Results (Weddle’s Rule)</h3>
+      <p><b>Step size (h):</b> ${h.toFixed(6)}</p>
+      <p><b>Final Result:</b> ${result.toFixed(6)}</p>
+
+      <h3>Iteration Details</h3>
+      <table border="1" width="100%" style="border-collapse:collapse">
+        <tr>
+          <th>i</th>
+          <th>x</th>
+          <th>f(x)</th>
+          <th>Coefficient</th>
+        </tr>
+        ${tableRows}
+      </table>
+
+      <h3>Steps</h3>
+      <pre>${steps}</pre>
+    </div>
+  `;
+}
 
   } catch (err) {
     output.innerHTML = "❌ " + err.message;
