@@ -1,0 +1,109 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #0f172a, #1e3a8a);
+  color: white;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  padding: 60px;
+  background: linear-gradient(135deg, #3b82f6, #9333ea);
+  color: white;
+}
+
+/* Glass Card */
+.card {
+  margin: 20px auto;
+  padding: 25px;
+  width: 85%;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 20px rgba(0,0,0,0.4);
+}
+
+/* Headings */
+h1, h2, h3 {
+  color: #38bdf8;
+}
+
+/* Inputs */
+input, select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+}
+
+/* Button */
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, #22c55e, #4ade80);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+/* Output */
+/* pre {
+  background: rgba(68, 70, 5, 0.6);
+  padding: 15px;
+  border-radius: 10px;
+} */
+
+pre {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 15px;
+  border-radius: 10px;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+/* Table */
+/* table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+th, td {
+  padding: 10px;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+th {
+  background: rgba(255,255,255,0.1);
+} */
+
+table {
+  margin-top: 10px;
+  background: rgba(255,255,255,0.05);
+}
+
+th {
+  background: rgba(255,255,255,0.1);
+}
+
+td, th {
+  padding: 8px;
+  text-align: center;
+}
+
+/* Hover effect */
+.card:hover {
+  transform: translateY(-5px);
+  transition: 0.3s;
+}
