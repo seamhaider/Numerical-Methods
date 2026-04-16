@@ -1,7 +1,24 @@
 /* ========= Function Parser ========= */
 function f(x, eq) {
   try {
+    // Step 1: clean input
+    eq = eq.toLowerCase().replace(/\s+/g, "");
+
+    // Step 2: replace math functions
+    eq = eq
+      .replace(/sinx/g, "Math.sin(x)")
+      .replace(/cosx/g, "Math.cos(x)")
+      .replace(/tanx/g, "Math.tan(x)")
+      .replace(/lnx/g, "Math.log(x)")
+      .replace(/logx/g, "Math.log10(x)")
+      .replace(/e\^x/g, "Math.exp(x)");
+
+    // Step 3: handle power like x^2 → Math.pow(x,2)
+    eq = eq.replace(/x\^(\d+)/g, "Math.pow(x,$1)");
+
+    // Step 4: final execution
     return Function("x", "return " + eq)(x);
+
   } catch {
     throw new Error("Invalid function input");
   }
